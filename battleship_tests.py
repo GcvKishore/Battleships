@@ -142,7 +142,7 @@ def testGetClickedCell():
     event.x = 140
     event.y = 321
     # Note that y corresponds to row, and x corresponds to col
-    assert(getClickedCell(data, event) == [6, 2])
+    assert(getClickedCell(data, event) == [6, 2]) 
     event.x = 499
     event.y = 1
     assert(getClickedCell(data, event) == [0, 9])
