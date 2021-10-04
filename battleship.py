@@ -34,7 +34,7 @@ def makeModel(data):
     data["user Board"] = emptyGrid(data["Number of rows"],data["Number of cols"])
     # data["user Board"] = test.testGrid()
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
-    data["temporary Ship"] = 0
+    data["temporary Ship"] = []
     data["numOfShips"] = 0
     return 
 
@@ -65,7 +65,10 @@ Parameters: dict mapping strs to values ; mouse event object ; 2D list of ints
 Returns: None
 '''
 def mousePressed(data, event, board):
-    pass
+    click=getClickedCell(data,event)
+    if board == "user":
+        clickUserBoard(data,click[0],click[1])
+    return
 
 #### WEEK 1 ####
 
@@ -349,7 +352,7 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    # runSimulation(500, 500)
+    runSimulation(500, 500)
     #test.testIsVertical()
     # test.testGetClickedCell() 
-    test.testShipIsValid()
+    # test.testShipIsValid()
