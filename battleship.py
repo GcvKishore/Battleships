@@ -36,6 +36,7 @@ def makeModel(data):
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
     data["temporary Ship"] = []
     data["numOfShips"] = 0
+    data["winner"] = "comp"
     return 
 
 '''
@@ -47,6 +48,10 @@ def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["user Board"],True)
     drawGrid(data,compCanvas,data["computer Board"],True)
     drawShip(data,userCanvas,data["temporary Ship"])
+    if(data["winner"]=="user"):
+        drawGameOver(data,userCanvas) 
+    elif(data["winner"]=="comp"):
+        drawGameOver(data,compCanvas) 
     return
 
 
@@ -68,7 +73,7 @@ def mousePressed(data, event, board):
     click=getClickedCell(data,event)
     if board == "user":
         clickUserBoard(data,click[0],click[1])
-    if board == "comp":
+    elif board == "comp":
         runGameTurn(data,click[0],click[1]) 
     return
 
@@ -268,8 +273,9 @@ def updateBoard(data, board, row, col, player):
             board[row][col]=SHIP_CLICKED 
         elif board[row][col]==EMPTY_UNCLICKED: 
             board[row][col]=EMPTY_CLICKED
+    if isGameOver(board):
+        data["winner"]=player
     return
-
 
 '''
 runGameTurn(data, row, col)
@@ -290,6 +296,7 @@ getComputerGuess(board)
 Parameters: 2D list of ints
 Returns: list of ints
 '''
+
 def getComputerGuess(board):
     index=0 
     while(index<1): 
@@ -306,7 +313,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isGameOver(board):
-    return
+    for row in range(len(board)):
+        for col in range(len(board)):
+            if board[row][col]==SHIP_UNCLICKED:
+                return False
+    return True
 
 
 '''
@@ -315,6 +326,10 @@ Parameters: dict mapping strs to values ; Tkinter canvas
 Returns: None
 '''
 def drawGameOver(data, canvas):
+    if(data["winner"]=="user"):
+        canvas.create_text(100, 50, text="Congrats! You won !!", fill="white", font=('Arial 13 bold'))
+    if(data["winner"]=="comp"):
+        canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="white", font=('Arial 13 bold') )
     return
 
 
@@ -382,3 +397,4 @@ if __name__ == "__main__":
     # test.testShipIsValid()
     # test.testUpdateBoard() 
     # test.testGetComputerGuess()
+    # test.testIsGameOver() 
