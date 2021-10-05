@@ -36,7 +36,7 @@ def makeModel(data):
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
     data["temporary Ship"] = []
     data["numOfShips"] = 0
-    data["winner"] = "comp"
+    data["winner"] = None
     return 
 
 '''
