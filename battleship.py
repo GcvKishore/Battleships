@@ -285,7 +285,9 @@ def runGameTurn(data, row, col):
         return 
     else: 
         updateBoard(data,data["computer Board"],row,col,"user")
-    
+    x=getComputerGuess(data["user Board"]) 
+    updateBoard(data,data["user Board"],x[0],x[1],"comp")
+
 
 '''
 getComputerGuess(board)
@@ -398,4 +400,3 @@ if __name__ == "__main__":
     # test.testShipIsValid()
     # test.testUpdateBoard() 
     # test.testGetComputerGuess()
-    # test.testIsGameOver() 
