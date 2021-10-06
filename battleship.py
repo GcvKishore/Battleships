@@ -36,6 +36,9 @@ def makeModel(data):
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
     data["temporary Ship"] = []
     data["numOfShips"] = 0
+    data["winner"] = None
+    data["max Turns"] = 50
+    data["current Turns"] = 0
     return 
 
 '''
@@ -45,10 +48,16 @@ Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["user Board"],True)
-    drawGrid(data,compCanvas,data["computer Board"],True)
+    drawGrid(data,compCanvas,data["computer Board"],False)
     drawShip(data,userCanvas,data["temporary Ship"])
+    if(data["winner"]=="user"):
+        drawGameOver(data,userCanvas) 
+    elif(data["winner"]=="comp"):
+        drawGameOver(data,compCanvas) 
+    elif data["winner"]=="draw": 
+        drawGameOver(data,userCanvas) 
+        drawGameOver(data,compCanvas)
     return
-
 
 '''
 keyPressed(data, events)
@@ -56,7 +65,9 @@ Parameters: dict mapping strs to values ; key event object
 Returns: None
 '''
 def keyPressed(data, event):
-    pass
+    if(event):
+        makeModel(data)
+    return
 
 
 '''
@@ -68,7 +79,7 @@ def mousePressed(data, event, board):
     click=getClickedCell(data,event)
     if board == "user":
         clickUserBoard(data,click[0],click[1])
-    if board == "comp":
+    elif board == "comp":
         runGameTurn(data,click[0],click[1]) 
     return
 
@@ -163,15 +174,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    row=[]
-    col=[]
-    for every in ship:
-        row.append(every[0])
-        col.append(every[1])
-    if col[0]==col[1] and col[1]==col[2]:
-        if max(row)-min(row)<=2:
+    if ship[0][1]==ship[1][1]==ship[2][1]:
+        ship.sort()
+        if ship[0][0]+1==ship[1][0]==ship[2][0]-1:
             return True
-    return False 
+    return False
     
 '''
 isHorizontal(ship)
@@ -179,15 +186,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    row=[]
-    col=[]
-    for every in ship:
-        row.append(every[0])
-        col.append(every[1])
-    if row[0]==row[1] and row[1]==row[2]:
-        if max(col)-min(col)<=2:
+    if ship[0][0]==ship[1][0]==ship[2][0]:
+        ship.sort()
+        if ship[0][1]+1==ship[1][1]==ship[2][1]-1:
             return True
-    return False 
+    return False
 
 '''
 getClickedCell(data, event)
@@ -268,8 +271,9 @@ def updateBoard(data, board, row, col, player):
             board[row][col]=SHIP_CLICKED 
         elif board[row][col]==EMPTY_UNCLICKED: 
             board[row][col]=EMPTY_CLICKED
+    if isGameOver(board):
+        data["winner"]=player
     return
-
 
 '''
 runGameTurn(data, row, col)
@@ -281,16 +285,22 @@ def runGameTurn(data, row, col):
         return 
     else: 
         updateBoard(data,data["computer Board"],row,col,"user")
-    return
-
+    
 
 '''
 getComputerGuess(board)
 Parameters: 2D list of ints
 Returns: list of ints
 '''
+
 def getComputerGuess(board):
-    return
+    index=0 
+    while(index<1): 
+        row=random.randint(0,9) 
+        col=random.randint(0,9) 
+        if(board[row][col]==SHIP_UNCLICKED) or (board[row][col]==EMPTY_UNCLICKED): 
+            index=index+1 
+            return[row,col]
 
 
 '''
@@ -299,7 +309,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isGameOver(board):
-    return
+    for row in range(len(board)):
+        for col in range(len(board)):
+            if board[row][col]==SHIP_UNCLICKED:
+                return False
+    return True
 
 
 '''
@@ -308,8 +322,16 @@ Parameters: dict mapping strs to values ; Tkinter canvas
 Returns: None
 '''
 def drawGameOver(data, canvas):
+    if(data["winner"]=="user"):
+        canvas.create_text(100, 50, text="Congrats! You won !!", fill="black", font=('Arial 11 bold'))
+        canvas.create_text(150, 70, text="Press Enter to Play Again !!", fill="black", font=('Arial 13 bold'))
+    if(data["winner"]=="comp"):
+        canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="black", font=('Arial 11 bold'))
+        canvas.create_text(150, 70, text="Press Enter to Play Again !!", fill="black", font=('Arial 13 bold'))
+    if(data["winner"]=="draw"): 
+        canvas.create_text(100 ,50, text="Draw Match! Out of moves!!", fill="black", font=("Arial 11 bold"))
+        canvas.create_text(150, 70, text="Press Enter to Play Again !!", fill="black", font=('Arial 13 bold'))
     return
-
 
 ### SIMULATION FRAMEWORK ###
 
@@ -368,9 +390,12 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
+    # test.week3Tests()
     runSimulation(500, 500)
-
-    #test.testIsVertical()
+    # test.testIsHorizontal()
+    # test.testIsVertical()
     # test.testGetClickedCell() 
     # test.testShipIsValid()
     # test.testUpdateBoard() 
+    # test.testGetComputerGuess()
+    # test.testIsGameOver() 
