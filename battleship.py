@@ -174,15 +174,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    row=[]
-    col=[]
-    for every in ship:
-        row.append(every[0])
-        col.append(every[1])
-    if col[0]==col[1] and col[1]==col[2]:
-        if max(row)-min(row)<=2:
+    if ship[0][1]==ship[1][1]==ship[2][1]:
+        ship.sort()
+        if ship[0][0]+1==ship[1][0]==ship[2][0]-1:
             return True
-    return False 
+    return False
     
 '''
 isHorizontal(ship)
@@ -190,15 +186,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    row=[]
-    col=[]
-    for every in ship:
-        row.append(every[0])
-        col.append(every[1])
-    if row[0]==row[1] and row[1]==row[2]:
-        if max(col)-min(col)<=2:
+    if ship[0][0]==ship[1][0]==ship[2][0]:
+        ship.sort()
+        if ship[0][1]+1==ship[1][1]==ship[2][1]-1:
             return True
-    return False 
+    return False
 
 '''
 getClickedCell(data, event)
@@ -295,7 +287,7 @@ def runGameTurn(data, row, col):
         updateBoard(data,data["computer Board"],row,col,"user")
     x=getComputerGuess(data["user Board"]) 
     updateBoard(data,data["user Board"],x[0],x[1],"comp")
-    data["current Turns"]==data["current Turns"]+1 
+    data["current Turns"]=data["current Turns"]+1 
     if data["current Turns"]==data["max Turns"]: 
         data["winner"]="draw"
 
@@ -406,8 +398,8 @@ if __name__ == "__main__":
     ## Finally, run the simulation to test it manually ##
     # test.week3Tests()
     runSimulation(500, 500)
-
-    #test.testIsVertical()
+    # test.testIsHorizontal()
+    # test.testIsVertical()
     # test.testGetClickedCell() 
     # test.testShipIsValid()
     # test.testUpdateBoard() 
