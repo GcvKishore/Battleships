@@ -114,7 +114,7 @@ def week1Tests():
 
 def testIsVertical():
     print("Testing isVertical()...", end="")
-    assert(isVertical([ [0, 1], [1, 1], [2, 1] ]) == True)
+    assert(isVertical([ [0, 1], [1, 1], [2, 1] ]) == True) 
     assert(isVertical([ [2, 1], [0, 1], [1, 1] ]) == True) # order doesn't matter
     assert(isVertical([ [1, 0], [1, 1], [1, 2] ]) == False)
     assert(isVertical([ [0, 0], [1, 0], [3, 0] ]) == False) # must be sequential
