@@ -37,8 +37,6 @@ def makeModel(data):
     data["temporary Ship"] = []
     data["numOfShips"] = 0
     data["winner"] = None
-    data["max Turns"] = 50
-    data["current Turns"] = 0
     return 
 
 '''
@@ -54,9 +52,6 @@ def makeView(data, userCanvas, compCanvas):
         drawGameOver(data,userCanvas) 
     elif(data["winner"]=="comp"):
         drawGameOver(data,compCanvas) 
-    elif data["winner"]=="draw": 
-        drawGameOver(data,userCanvas) 
-        drawGameOver(data,compCanvas)
     return
 
 '''
@@ -325,14 +320,9 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if(data["winner"]=="user"):
-        canvas.create_text(100, 50, text="Congrats! You won !!", fill="black", font=('Arial 11 bold'))
-        canvas.create_text(150, 70, text="Press Enter to Play Again !!", fill="black", font=('Arial 13 bold'))
+        canvas.create_text(100, 50, text="Congrats! You won !!", fill="light green", font=('Arial 13 bold'))
     if(data["winner"]=="comp"):
-        canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="black", font=('Arial 11 bold'))
-        canvas.create_text(150, 70, text="Press Enter to Play Again !!", fill="black", font=('Arial 13 bold'))
-    if(data["winner"]=="draw"): 
-        canvas.create_text(100 ,50, text="Draw Match! Out of moves!!", fill="black", font=("Arial 11 bold"))
-        canvas.create_text(150, 70, text="Press Enter to Play Again !!", fill="black", font=('Arial 13 bold'))
+        canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="light green", font=('Arial 13 bold') )
     return
 
 ### SIMULATION FRAMEWORK ###
@@ -400,3 +390,4 @@ if __name__ == "__main__":
     # test.testShipIsValid()
     # test.testUpdateBoard() 
     # test.testGetComputerGuess()
+    # test.testIsGameOver() 
