@@ -28,10 +28,11 @@ def makeModel(data):
     data["Number of rows"] = 10
     data["Number of cols"] = 10
     data["Board Size"] = 500
-    data["Cell Size"] = 50
+    data["Cell Size"] = data["Board Size"]/data["Number of rows"]
     data["num Of Ships"] = 5
-    data["computer Board"] = emptyGrid(data["Number of rows"],data["Number of cols"]) 
-    data["user Board"] = test.testGrid()
+    data["computer Board"] = emptyGrid(data["Number of rows"],data["Number of cols"])
+    data["user Board"] = emptyGrid(data["Number of rows"],data["Number of cols"])
+    # data["user Board"] = test.testGrid()
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
     return 
 
@@ -132,14 +133,13 @@ Parameters: dict mapping strs to values ; Tkinter canvas ; 2D list of ints ; boo
 Returns: None
 '''
 def drawGrid(data, canvas, grid, showShips):
-    for col in range(data["Number of cols"]):
-        for row in range(data["Number of rows"]):
-            if grid[col][row] == SHIP_UNCLICKED: 
+    for row in range(data["Number of rows"]):
+        for col in range(data["Number of cols"]):
+            if grid[row][col] == SHIP_UNCLICKED: 
                 canvas.create_rectangle(data["Cell Size"]*col, data["Cell Size"]*row, data["Cell Size"]*(col+1), data["Cell Size"]*(row+1), fill="yellow")
             else:
                 canvas.create_rectangle(data["Cell Size"]*col, data["Cell Size"]*row, data["Cell Size"]*(col+1), data["Cell Size"]*(row+1), fill="blue")
-    return
-
+    return 
 
 ### WEEK 2 ###
 
@@ -149,17 +149,31 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    return
-
-
+    row=[]
+    col=[]
+    for every in ship:
+        row.append(every[0])
+        col.append(every[1])
+    if col[0]==col[1] and col[1]==col[2]:
+        if max(row)-min(row)<=2:
+            return True
+    return False 
+    
 '''
 isHorizontal(ship)
 Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    return
-
+    row=[]
+    col=[]
+    for every in ship:
+        row.append(every[0])
+        col.append(every[1])
+    if row[0]==row[1] and row[1]==row[2]:
+        if max(col)-min(col)<=2:
+            return True
+    return False 
 
 '''
 getClickedCell(data, event)
@@ -310,5 +324,6 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
-    runSimulation(500, 500)
-    # test.testDrawGrid() 
+    #runSimulation(500, 500)
+    #test.testIsVertical()
+    test.testIsHorizontal() 
