@@ -36,7 +36,13 @@ def makeModel(data):
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
     data["temporary Ship"] = []
     data["numOfShips"] = 0
+<<<<<<< HEAD
     data["winner"] = "comp"
+=======
+    data["winner"] = None
+    data["max Turns"] = 50
+    data["current Turns"] = 0
+>>>>>>> main
     return 
 
 '''
@@ -46,14 +52,19 @@ Returns: None
 '''
 def makeView(data, userCanvas, compCanvas):
     drawGrid(data,userCanvas,data["user Board"],True)
-    drawGrid(data,compCanvas,data["computer Board"],True)
+    drawGrid(data,compCanvas,data["computer Board"],False)
     drawShip(data,userCanvas,data["temporary Ship"])
     if(data["winner"]=="user"):
         drawGameOver(data,userCanvas) 
     elif(data["winner"]=="comp"):
         drawGameOver(data,compCanvas) 
+<<<<<<< HEAD
+=======
+    elif data["winner"]=="draw": 
+        drawGameOver(data,userCanvas) 
+        drawGameOver(data,compCanvas)
+>>>>>>> main
     return
-
 
 '''
 keyPressed(data, events)
@@ -61,7 +72,9 @@ Parameters: dict mapping strs to values ; key event object
 Returns: None
 '''
 def keyPressed(data, event):
-    pass
+    if(event):
+        makeModel(data)
+    return
 
 
 '''
@@ -168,15 +181,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isVertical(ship):
-    row=[]
-    col=[]
-    for every in ship:
-        row.append(every[0])
-        col.append(every[1])
-    if col[0]==col[1] and col[1]==col[2]:
-        if max(row)-min(row)<=2:
+    if ship[0][1]==ship[1][1]==ship[2][1]:
+        ship.sort()
+        if ship[0][0]+1==ship[1][0]==ship[2][0]-1:
             return True
-    return False 
+    return False
     
 '''
 isHorizontal(ship)
@@ -184,15 +193,11 @@ Parameters: 2D list of ints
 Returns: bool
 '''
 def isHorizontal(ship):
-    row=[]
-    col=[]
-    for every in ship:
-        row.append(every[0])
-        col.append(every[1])
-    if row[0]==row[1] and row[1]==row[2]:
-        if max(col)-min(col)<=2:
+    if ship[0][0]==ship[1][0]==ship[2][0]:
+        ship.sort()
+        if ship[0][1]+1==ship[1][1]==ship[2][1]-1:
             return True
-    return False 
+    return False
 
 '''
 getClickedCell(data, event)
@@ -332,7 +337,6 @@ def drawGameOver(data, canvas):
         canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="white", font=('Arial 13 bold') )
     return
 
-
 ### SIMULATION FRAMEWORK ###
 
 from tkinter import *
@@ -390,9 +394,10 @@ def runSimulation(w, h):
 if __name__ == "__main__":
 
     ## Finally, run the simulation to test it manually ##
+    # test.week3Tests()
     runSimulation(500, 500)
-
-    #test.testIsVertical()
+    # test.testIsHorizontal()
+    # test.testIsVertical()
     # test.testGetClickedCell() 
     # test.testShipIsValid()
     # test.testUpdateBoard() 
