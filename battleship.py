@@ -36,13 +36,7 @@ def makeModel(data):
     data["computer Board"] = addShips(data["computer Board"],data["num Of Ships"]) 
     data["temporary Ship"] = []
     data["numOfShips"] = 0
-<<<<<<< HEAD
-    data["winner"] = "comp"
-=======
     data["winner"] = None
-    data["max Turns"] = 50
-    data["current Turns"] = 0
->>>>>>> main
     return 
 
 '''
@@ -58,12 +52,6 @@ def makeView(data, userCanvas, compCanvas):
         drawGameOver(data,userCanvas) 
     elif(data["winner"]=="comp"):
         drawGameOver(data,compCanvas) 
-<<<<<<< HEAD
-=======
-    elif data["winner"]=="draw": 
-        drawGameOver(data,userCanvas) 
-        drawGameOver(data,compCanvas)
->>>>>>> main
     return
 
 '''
@@ -332,9 +320,9 @@ Returns: None
 '''
 def drawGameOver(data, canvas):
     if(data["winner"]=="user"):
-        canvas.create_text(100, 50, text="Congrats! You won !!", fill="white", font=('Arial 13 bold'))
+        canvas.create_text(100, 50, text="Congrats! You won !!", fill="light green", font=('Arial 13 bold'))
     if(data["winner"]=="comp"):
-        canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="white", font=('Arial 13 bold') )
+        canvas.create_text(100, 50, text="Try Again ! You lost!!", fill="light green", font=('Arial 13 bold') )
     return
 
 ### SIMULATION FRAMEWORK ###
