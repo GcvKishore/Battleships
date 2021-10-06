@@ -181,7 +181,10 @@ Parameters: dict mapping strs to values ; mouse event object
 Returns: list of ints
 '''
 def getClickedCell(data, event):
-    return
+    ycoord=int(event.y/data["Cell Size"])
+    xcoord=int(event.x/data["Cell Size"])
+    return [ycoord,xcoord] 
+    
 
 
 '''
@@ -326,4 +329,4 @@ if __name__ == "__main__":
     ## Finally, run the simulation to test it manually ##
     #runSimulation(500, 500)
     #test.testIsVertical()
-    test.testIsHorizontal() 
+    test.testGetClickedCell() 
