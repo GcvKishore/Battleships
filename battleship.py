@@ -285,11 +285,7 @@ def runGameTurn(data, row, col):
         return 
     else: 
         updateBoard(data,data["computer Board"],row,col,"user")
-    x=getComputerGuess(data["user Board"]) 
-    updateBoard(data,data["user Board"],x[0],x[1],"comp")
-    data["current Turns"]==data["current Turns"]+1 
-    if data["current Turns"]==data["max Turns"]: 
-        data["winner"]="draw"
+    
 
 '''
 getComputerGuess(board)
